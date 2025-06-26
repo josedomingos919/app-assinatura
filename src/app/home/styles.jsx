@@ -24,12 +24,6 @@ export const Button = styled.TouchableOpacity`
   background-color: #4ce5b1;
 `;
 
-export const Title = styled.Text`
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-`;
-
 export const EmptyInformationTitle1 = styled.Text`
   color: #c9c9c9;
   font-weight: bold;

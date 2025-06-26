@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image } from "react-native";
-import { TextInput } from "../../components";
+import { Button, TextInput } from "../../components";
 
 import img from "../../assets/image/img1.png";
 import img3 from "../../assets/image/img2.png";
@@ -70,17 +70,18 @@ export default function HomeScreen() {
         </S.ContentContainerWhite>
       </S.ContentContainer>
       <S.Footer>
-        <S.Button>
-          <Image
-            resizeMode="contain"
-            source={img2}
-            style={{
-              width: 49,
-              height: 35,
-            }}
-          />
-          <S.Title>Adicionar Assinatura</S.Title>
-        </S.Button>
+        <Button
+          icon={
+            <Image
+              resizeMode="contain"
+              source={img2}
+              style={{
+                width: 49,
+                height: 35,
+              }}
+            />
+          }
+        />
       </S.Footer>
     </S.Container>
   );
