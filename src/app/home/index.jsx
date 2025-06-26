@@ -71,6 +71,9 @@ export default function HomeScreen() {
       </S.ContentContainer>
       <S.Footer>
         <Button
+          onPress={() => {
+            router.navigate("/create");
+          }}
           icon={
             <Image
               resizeMode="contain"

@@ -4,6 +4,7 @@ export default function Layout() {
   return (
     <Stack screenOptions={{ headerShown: false }} initialRouteName="home/index">
       <Stack.Screen name="home/index" />
+      <Stack.Screen name="create/index" />
     </Stack>
   );
 }
