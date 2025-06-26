@@ -3,6 +3,10 @@ import { useState } from "react";
 import { Image } from "react-native";
 import { Button, TextInput } from "../../components";
 
+import img4 from "../../assets/image/assinatura.jpeg";
+import verifyImg from "../../assets/image/comparar.png";
+import removeImg from "../../assets/image/remover.png";
+
 import img from "../../assets/image/img1.png";
 import img3 from "../../assets/image/img2.png";
 import img1 from "../../assets/image/img3.png";
@@ -51,7 +55,95 @@ export default function HomeScreen() {
             placeholder="Buscar assinatura"
             placeholderTextColor="#acacac"
           />
-          {data?.length ? null : (
+          {!data?.length ? (
+            <S.ListAssings>
+              {[
+                {
+                  bi: "938399LA83939",
+                  name: "Antonio Miguel",
+                  signature: "ksjdkskjdkksjd",
+                },
+                {
+                  bi: "938399LA83d939",
+                  name: "Antonio Hunday",
+                  signature: "ksjdkskjdkksjd",
+                },
+                {
+                  bi: "938399LA83939",
+                  name: "Antonio Tucson",
+                  signature: "ksjdkskjdkksjd",
+                },
+              ].map((item, index, data) => {
+                const isLast = data?.length - 1 == 0;
+
+                return (
+                  <S.ContainerAssing key={"te" + index}>
+                    <Image
+                      resizeMode="contain"
+                      source={img4}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        marginLeft: -10,
+                        borderTopRightRadius: 10,
+                        borderBottomRightRadius: 10,
+                        backgroundColor: "transparent",
+                      }}
+                    />
+                    <S.InfoList>
+                      <S.LabelName style={{ marginBottom: 0 }}>
+                        {item?.name}
+                      </S.LabelName>
+                      <S.LabelName style={{ fontWeight: "bold" }}>
+                        {item?.bi}
+                      </S.LabelName>
+                      <Button
+                        title="Verificar"
+                        style={{
+                          marginBottom: 10,
+                        }}
+                        onPress={() => {
+                          router.navigate("/create");
+                        }}
+                        icon={
+                          <Image
+                            resizeMode="contain"
+                            source={verifyImg}
+                            style={{
+                              width: 20,
+                              height: 20,
+                              marginRight: 5,
+                            }}
+                          />
+                        }
+                      />
+                      <Button
+                        icon={
+                          <Image
+                            resizeMode="contain"
+                            source={removeImg}
+                            style={{
+                              width: 20,
+                              height: 20,
+                              marginRight: 5,
+                            }}
+                          />
+                        }
+                        style={{
+                          backgroundColor: "#ff000094",
+                          marginBottom: 10,
+                        }}
+                        title="Remover"
+                        onPress={() => {
+                          router.navigate("/create");
+                        }}
+                      />
+                    </S.InfoList>
+                  </S.ContainerAssing>
+                );
+              })}
+            </S.ListAssings>
+          ) : (
             <S.EmptyInformation>
               <Image
                 resizeMode="contain"

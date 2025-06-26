@@ -82,3 +82,29 @@ export const EmptyInformation = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
+export const ListAssings = styled.ScrollView`
+  flex: 1;
+  margin-top: 25px;
+`;
+
+export const ContainerAssing = styled.View`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+`;
+
+export const InfoList = styled.View`
+  padding-left: 15px;
+  flex: 1;
+`;
+
+export const LabelName = styled.Text`
+  color: gray;
+  margin-bottom: 10px;
+`;
