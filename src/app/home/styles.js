@@ -52,10 +52,26 @@ export const HeaderTitle2 = styled.Text`
 `;
 
 export const Header = styled.View`
+  display: flex;
+  flex-direction: row;
   height: 268px;
   padding: 20px;
   padding-top: 75px;
   background-color: #4ce5b1;
+`;
+
+export const HeaderLeft = styled.View``;
+
+export const HeaderRight = styled.View`
+  flex: 1;
+  padding-top: 3%;
+  align-items: flex-end;
+`;
+
+export const SettingButton = styled.TouchableOpacity`
+  padding: 7px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 export const HeaderRow = styled.View`

@@ -7,6 +7,7 @@ import { compararStringsLimpa } from "./util";
 import img4 from "../../assets/image/assinatura.jpeg";
 import verifyImg from "../../assets/image/comparar.png";
 import removeImg from "../../assets/image/remover.png";
+import settingImg from "../../assets/image/setting.png";
 
 import img from "../../assets/image/img1.png";
 import img3 from "../../assets/image/img2.png";
@@ -46,19 +47,33 @@ export default function HomeScreen() {
   return (
     <S.Container>
       <S.Header>
-        <S.HeaderRow>
-          <S.HeaderTitle1>Olá, Bem-Vindo!</S.HeaderTitle1>
-          <Image
-            style={{
-              width: 60,
-              height: 50,
-              marginTop: -18,
-            }}
-            source={img}
-            resizeMode="contain"
-          />
-        </S.HeaderRow>
-        <S.HeaderTitle2>Comparador xi53</S.HeaderTitle2>
+        <S.HeaderLeft>
+          <S.HeaderRow>
+            <S.HeaderTitle1>Olá, Bem-Vindo!</S.HeaderTitle1>
+            <Image
+              style={{
+                width: 60,
+                height: 50,
+                marginTop: -18,
+              }}
+              source={img}
+              resizeMode="contain"
+            />
+          </S.HeaderRow>
+          <S.HeaderTitle2>Comparador xi53</S.HeaderTitle2>
+        </S.HeaderLeft>
+        <S.HeaderRight>
+          <S.SettingButton>
+            <Image
+              style={{
+                width: 35,
+                height: 35,
+              }}
+              resizeMode="contain"
+              source={settingImg}
+            />
+          </S.SettingButton>
+        </S.HeaderRight>
       </S.Header>
       <S.ContentContainer>
         <S.ContentContainerWhite>
