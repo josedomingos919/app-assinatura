@@ -7,12 +7,42 @@ import emptyImg from "../../assets/image/empty_img.png";
 import img from "../../assets/image/img1.png";
 import img2 from "../../assets/image/img5.png";
 
+import * as ImagePicker from "expo-image-picker";
 import * as S from "./styles";
 
 export default function HomeScreen() {
   const router = useRouter();
 
   const [data, setData] = useState([]);
+  const [imageData, setImageData] = useState(null);
+
+  const pickImage = async () => {
+    // Solicita permissão de acesso à galeria
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      alert("Permissão para acessar a galeria é necessária.");
+      return;
+    }
+
+    // Abre a galeria
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.canceled && result?.assets && result?.assets?.length > 0) {
+      const asset = result.assets[0];
+
+      setImageData({
+        uri: asset.uri,
+        tmpPath: asset.uri, // No Expo, tmpPath == uri (sem acesso ao FS diretamente)
+        base64: asset.base64,
+      });
+    }
+  };
 
   return (
     <S.Container>
@@ -49,15 +79,19 @@ export default function HomeScreen() {
             placeholderTextColor="#acacac"
           />
           <S.Title>Foto da Assinatura</S.Title>
-          <S.UploadButton>
+          <S.UploadButton onPress={() => pickImage()}>
             <Image
-              source={emptyImg}
+              source={imageData?.uri ? { uri: imageData?.uri } : emptyImg}
               style={{
                 width: 80,
                 height: 80,
               }}
             />
-            <S.TitleUploadButton>Carregar Imagem</S.TitleUploadButton>
+            {!imageData?.uri ? (
+              <S.TitleUploadButton>Carregar Imagem</S.TitleUploadButton>
+            ) : (
+              ""
+            )}
           </S.UploadButton>
         </S.ContentContainerWhite>
       </S.ContentContainer>
