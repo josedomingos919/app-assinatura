@@ -15,7 +15,7 @@ export default function VerifyScreen() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState({
-    isEqual: false,
+    isEqual: true,
     percentage: 10,
   });
 
@@ -73,13 +73,16 @@ export default function VerifyScreen() {
                 <ActivityIndicator />
               ) : (
                 <>
-                  <S.TextSucess>
+                  <S.TextSucess isEqual={result?.isEqual}>
                     {result.isEqual
-                      ? "A assinatura é falsa"
+                      ? "A assinatura é verdadeira"
                       : "A assinatura é falsa"}
                   </S.TextSucess>
-                  <S.TextSucess style={{ fontSize: 15 }}>
-                    Aproximação 10%
+                  <S.TextSucess
+                    isEqual={result?.isEqual}
+                    style={{ fontSize: 15 }}
+                  >
+                    Aproximação 90%
                   </S.TextSucess>
                 </>
               )}
