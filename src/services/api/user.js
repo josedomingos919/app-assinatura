@@ -44,7 +44,9 @@ const deleteSignature = async ({
   },
 }) => {
   try {
-    const response = await axiosInstance.get(`/users/signatures/${param?.id}`);
+    const response = await axiosInstance.delete(
+      `/users/signatures/${param?.id}`
+    );
 
     return response;
   } catch (error) {
