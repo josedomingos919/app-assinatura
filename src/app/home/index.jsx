@@ -107,7 +107,10 @@ export default function HomeScreen() {
             placeholderTextColor="#acacac"
           />
           {getFilteredData()?.length > 0 ? (
-            <S.ListAssings>
+            <S.ListAssings
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
               {getFilteredData().map((item, index, data) => {
                 const isLast = data?.length - 1 == 0;
 
