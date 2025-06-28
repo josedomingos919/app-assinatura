@@ -6,42 +6,14 @@ import { Button, TextInput } from "../../components";
 import img from "../../assets/image/img1.png";
 import imgOK from "../../assets/image/ok.png";
 
-import * as ImagePicker from "expo-image-picker";
 import * as S from "./styles";
 
 export default function HomeScreen() {
   const router = useRouter();
 
-  const [data, setData] = useState([]);
-  const [imageData, setImageData] = useState(null);
-
-  const pickImage = async () => {
-    // Solicita permissão de acesso à galeria
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (!permissionResult.granted) {
-      alert("Permissão para acessar a galeria é necessária.");
-      return;
-    }
-
-    // Abre a galeria
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      base64: true,
-      quality: 1,
-    });
-
-    if (!result.canceled && result?.assets && result?.assets?.length > 0) {
-      const asset = result.assets[0];
-
-      setImageData({
-        uri: asset.uri,
-        tmpPath: asset.uri, // No Expo, tmpPath == uri (sem acesso ao FS diretamente)
-        base64: asset.base64,
-      });
-    }
-  };
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
   return (
     <S.Container>
@@ -66,21 +38,27 @@ export default function HomeScreen() {
       <S.ContentContainer>
         <S.ContentContainerWhite>
           <TextInput
+            value={name}
             marginBottom={20}
+            onChangeText={setName}
             title="Nome da Empresa*"
             placeholder="ex.: Banco BAI"
             placeholderTextColor="#acacac"
           />
           <TextInput
-            marginBottom={20}
+            value={email}
             title="Email*"
-            placeholder="ex.: unitel@gmail.com"
+            marginBottom={20}
+            onChangeText={setEmail}
             placeholderTextColor="#acacac"
+            placeholder="ex.: unitel@gmail.com"
           />
           <TextInput
             title="Senha*"
+            value={password}
             marginBottom={25}
             secureTextEntry={true}
+            onChangeText={setPassword}
             placeholder="ex.: tesreh3773!."
             placeholderTextColor="#acacac"
           />
