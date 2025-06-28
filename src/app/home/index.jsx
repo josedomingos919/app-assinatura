@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image } from "react-native";
 import { Button, TextInput } from "../../components";
+import { compararStringsLimpa } from "./util";
 
 import img4 from "../../assets/image/assinatura.jpeg";
 import verifyImg from "../../assets/image/comparar.png";
@@ -17,7 +18,30 @@ import * as S from "./styles";
 export default function HomeScreen() {
   const router = useRouter();
 
-  const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState([
+    {
+      bi: "938399LA83939",
+      name: "Antonio Miguel",
+      signature: "ksjdkskjdkksjd",
+    },
+    {
+      bi: "938399LA83d939",
+      name: "Antonio Hunday",
+      signature: "ksjdkskjdkksjd",
+    },
+    {
+      bi: "938399LA83939",
+      name: "Antonio Tucson",
+      signature: "ksjdkskjdkksjd",
+    },
+  ]);
+
+  const getFilteredData = () => {
+    if (search) {
+      return data.filter(({ name }) => compararStringsLimpa(search, name));
+    } else return data;
+  };
 
   return (
     <S.Container>
@@ -51,29 +75,15 @@ export default function HomeScreen() {
                 }}
               />
             }
+            value={search}
             key="teste7383"
+            onChangeText={setSearch}
             placeholder="Buscar assinatura"
             placeholderTextColor="#acacac"
           />
-          {!data?.length ? (
+          {getFilteredData()?.length > 0 ? (
             <S.ListAssings>
-              {[
-                {
-                  bi: "938399LA83939",
-                  name: "Antonio Miguel",
-                  signature: "ksjdkskjdkksjd",
-                },
-                {
-                  bi: "938399LA83d939",
-                  name: "Antonio Hunday",
-                  signature: "ksjdkskjdkksjd",
-                },
-                {
-                  bi: "938399LA83939",
-                  name: "Antonio Tucson",
-                  signature: "ksjdkskjdkksjd",
-                },
-              ].map((item, index, data) => {
+              {getFilteredData().map((item, index, data) => {
                 const isLast = data?.length - 1 == 0;
 
                 return (
