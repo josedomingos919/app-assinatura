@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image } from "react-native";
-import { Button, TextInput } from "../../components";
+import { Button, ConfirmationModal, TextInput } from "../../components";
 import { compararStringsLimpa } from "./util";
 
 import img4 from "../../assets/image/assinatura.jpeg";
@@ -37,11 +37,21 @@ export default function HomeScreen() {
       signature: "ksjdkskjdkksjd",
     },
   ]);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleConfirm = () => {
+    console.log("Confirmado!");
+    setModalVisible(false);
+  };
 
   const getFilteredData = () => {
     if (search) {
       return data.filter(({ name }) => compararStringsLimpa(search, name));
     } else return data;
+  };
+
+  const handleDelete = () => {
+    setModalVisible(true);
   };
 
   return (
@@ -128,7 +138,7 @@ export default function HomeScreen() {
                           marginBottom: 10,
                         }}
                         onPress={() => {
-                          router.navigate("/create");
+                          router.navigate("/verify");
                         }}
                         icon={
                           <Image
@@ -160,7 +170,7 @@ export default function HomeScreen() {
                         }}
                         title="Remover"
                         onPress={() => {
-                          router.navigate("/create");
+                          handleDelete();
                         }}
                       />
                     </S.InfoList>
@@ -203,6 +213,12 @@ export default function HomeScreen() {
           }
         />
       </S.Footer>
+      <ConfirmationModal
+        visible={modalVisible}
+        message="Tem certeza que deseja eliminar?"
+        onCancel={() => setModalVisible(false)}
+        onConfirm={handleConfirm}
+      />
     </S.Container>
   );
 }
