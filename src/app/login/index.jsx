@@ -64,6 +64,7 @@ export default function HomeScreen() {
         <S.ContentContainerWhite>
           <TextInput
             marginBottom={20}
+            keyboardType="email-address"
             title="Email da Empresa"
             placeholder="ex.: unitel@gmail.com"
             placeholderTextColor="#acacac"

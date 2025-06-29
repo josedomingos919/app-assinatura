@@ -11,6 +11,7 @@ export const Button = styled.TouchableOpacity`
   border-color: #e6e6e6;
   justify-content: center;
   background-color: #4ce5b1;
+  ${({ disabled }) => (disabled ? "opacity: 0.7;" : "")}
 `;
 
 export const Title = styled.Text`

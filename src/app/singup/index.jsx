@@ -1,7 +1,9 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image } from "react-native";
+import { Alert, Image } from "react-native";
 import { Button, TextInput } from "../../components";
+import { service } from "../../services";
+import { isValidEmail } from "./util";
 
 import img from "../../assets/image/img1.png";
 import imgOK from "../../assets/image/ok.png";
@@ -11,9 +13,53 @@ import * as S from "./styles";
 export default function HomeScreen() {
   const router = useRouter();
 
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCreate = async () => {
+    if (name?.length < 5) {
+      return Alert.alert("Atenção!", "O nome precisa ter mais de 4 letras!");
+    }
+
+    if (!isValidEmail(email)) {
+      return Alert.alert("Atenção!", "Email inválido!");
+    }
+
+    if (password?.length < 5) {
+      return Alert.alert("Atenção!", "A senha precisa ter mais de 4 letras!");
+    }
+
+    setIsLoading(true);
+
+    const response = await service.api.auth.singUp({
+      data: {
+        name: name,
+        email: email,
+        password: password,
+      },
+    });
+
+    setIsLoading(false);
+
+    console.log("rest-full-api>>>>>>    ", response);
+
+    if (response?.status == 201) {
+      Alert.alert(
+        "Sucesso!",
+        "Conta criada, volte ao login para inciar sessão!",
+        [
+          {
+            text: "Sim",
+            onPress: () => router.back(),
+          },
+        ]
+      );
+    } else {
+      Alert.alert("Erro!", "Tente novamente mais tarde!");
+    }
+  };
 
   return (
     <S.Container>
@@ -50,6 +96,7 @@ export default function HomeScreen() {
             title="Email*"
             marginBottom={20}
             onChangeText={setEmail}
+            keyboardType="email-address"
             placeholderTextColor="#acacac"
             placeholder="ex.: unitel@gmail.com"
           />
@@ -64,6 +111,9 @@ export default function HomeScreen() {
           />
           <Button
             title="Criar"
+            onPress={() => {
+              handleCreate();
+            }}
             icon={
               <Image
                 style={{
@@ -75,6 +125,7 @@ export default function HomeScreen() {
                 resizeMode="contain"
               />
             }
+            disabled={isLoading}
           />
         </S.ContentContainerWhite>
       </S.ContentContainer>
