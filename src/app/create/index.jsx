@@ -88,6 +88,7 @@ export default function HomeScreen() {
         "Assinante já existe, o campo BI está duplicado!"
       );
     } else {
+      console.log("lllllllllllllll     ", response);
       Alert.alert("Erro!", "Tente novamente mais tarde!");
     }
   };
