@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { ActivityIndicator, Alert, Image } from "react-native";
+import { ActivityIndicator, Alert, Image, RefreshControl } from "react-native";
 import { Button, ConfirmationModal, TextInput } from "../../components";
 import { service } from "../../services";
 import { useApp } from "../../store/zustend";
@@ -148,6 +148,13 @@ export default function HomeScreen() {
             </S.LoaderContainer>
           ) : getFilteredData()?.length > 0 ? (
             <S.ListAssings
+              refreshControl={
+                <RefreshControl
+                  onRefresh={() => {
+                    getSignatures();
+                  }}
+                />
+              }
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
