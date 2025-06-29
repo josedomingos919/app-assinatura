@@ -2,6 +2,8 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image } from "react-native";
 import { Button, ConfirmationModal, TextInput } from "../../components";
+import { service } from "../../services";
+import { useApp } from "../../store/zustend";
 import { compararStringsLimpa } from "./util";
 
 import img4 from "../../assets/image/assinatura.jpeg";
@@ -19,6 +21,7 @@ import * as S from "./styles";
 export default function HomeScreen() {
   const router = useRouter();
 
+  const { setUser, user } = useApp();
   const [search, setSearch] = useState("");
   const [data, setData] = useState([
     {
@@ -52,6 +55,15 @@ export default function HomeScreen() {
 
   const handleDelete = () => {
     setModalVisible(true);
+  };
+
+  const handleLogout = async () => {
+    setUser(null);
+    await service.cache.secureStorage.remove("user");
+
+    router.replace("/login");
+
+    console.log("terminou");
   };
 
   return (
@@ -215,6 +227,9 @@ export default function HomeScreen() {
             />
           }
         />
+        <S.LabelButton onPress={() => handleLogout()}>
+          <S.LabelButtonText>{"<"} Terminar Sessão </S.LabelButtonText>
+        </S.LabelButton>
       </S.Footer>
       <ConfirmationModal
         visible={modalVisible}

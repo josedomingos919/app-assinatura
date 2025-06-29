@@ -1,47 +1,83 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image } from "react-native";
+import { ActivityIndicator, Alert, Image } from "react-native";
 import { Button, TextInput } from "../../components";
+import { service } from "../../services";
+import { useApp } from "../../store/zustend";
+import { isValidEmail } from "../singup/util";
 
 import img from "../../assets/image/img1.png";
 import loginImg from "../../assets/image/login.png";
 
-import * as ImagePicker from "expo-image-picker";
 import * as S from "./styles";
 
 export default function HomeScreen() {
   const router = useRouter();
 
-  const [data, setData] = useState([]);
-  const [imageData, setImageData] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkData, setCheckData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const pickImage = async () => {
-    // Solicita permissão de acesso à galeria
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const { setUser, user } = useApp();
 
-    if (!permissionResult.granted) {
-      alert("Permissão para acessar a galeria é necessária.");
-      return;
+  const handleLogin = async () => {
+    if (!isValidEmail(email)) {
+      return Alert.alert("Atenção!", "Email inválido!");
     }
 
-    // Abre a galeria
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      base64: true,
-      quality: 1,
+    if (password?.length < 5) {
+      return Alert.alert("Atenção!", "A senha precisa ter mais de 4 letras!");
+    }
+
+    setIsLoading(true);
+
+    const response = await service.api.auth.singIn({
+      data: {
+        email: email,
+        password: password,
+      },
     });
 
-    if (!result.canceled && result?.assets && result?.assets?.length > 0) {
-      const asset = result.assets[0];
+    setIsLoading(false);
 
-      setImageData({
-        uri: asset.uri,
-        tmpPath: asset.uri, // No Expo, tmpPath == uri (sem acesso ao FS diretamente)
-        base64: asset.base64,
-      });
+    if (response?.status == 200) {
+      setUser(response?.data);
+      await service.cache.secureStorage.set("user", response?.data);
+
+      router.replace("/home");
+    } else {
+      Alert.alert(
+        "Atenção!",
+        "Falha ao fazer login, tente novamente mais tarde!"
+      );
+    }
+
+    console.log("login-in-app>>>>>>    ", response);
+  };
+
+  const checkSession = async () => {
+    const result = await service.cache.secureStorage.get("user");
+    console.log("result     ", result);
+    if (result) {
+      setUser(result?.name);
+      router.replace("/home");
+    } else {
+      setCheckData(true);
     }
   };
+
+  if (checkData == null) {
+    checkSession();
+
+    return (
+      <S.Container>
+        <S.LoadingContainer>
+          <ActivityIndicator color="#4ce5b1" size="large" />
+        </S.LoadingContainer>
+      </S.Container>
+    );
+  }
 
   return (
     <S.Container>
@@ -63,6 +99,8 @@ export default function HomeScreen() {
       <S.ContentContainer>
         <S.ContentContainerWhite>
           <TextInput
+            value={email}
+            onChangeText={setEmail}
             marginBottom={20}
             keyboardType="email-address"
             title="Email da Empresa"
@@ -70,6 +108,8 @@ export default function HomeScreen() {
             placeholderTextColor="#acacac"
           />
           <TextInput
+            value={password}
+            onChangeText={setPassword}
             title="Senha"
             marginBottom={30}
             secureTextEntry={true}
@@ -77,6 +117,10 @@ export default function HomeScreen() {
             placeholderTextColor="#acacac"
           />
           <Button
+            onPress={() => {
+              handleLogin();
+            }}
+            disabled={isLoading}
             title="Entrar"
             icon={
               <Image

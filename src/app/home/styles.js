@@ -124,3 +124,16 @@ export const LabelName = styled.Text`
   color: gray;
   margin-bottom: 10px;
 `;
+
+export const LabelButtonText = styled.Text`
+  color: rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+  text-decoration: underline;
+`;
+
+export const LabelButton = styled.TouchableOpacity`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+`;

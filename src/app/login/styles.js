@@ -94,3 +94,9 @@ export const LabelButton = styled.TouchableOpacity`
   justify-content: center;
   min-height: 40px;
 `;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
