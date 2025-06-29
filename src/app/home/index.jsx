@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { ActivityIndicator, Image } from "react-native";
+import { ActivityIndicator, Alert, Image } from "react-native";
 import { Button, ConfirmationModal, TextInput } from "../../components";
 import { service } from "../../services";
 import { useApp } from "../../store/zustend";
@@ -24,14 +24,15 @@ export default function HomeScreen() {
   const { setUser, user } = useApp();
 
   const [search, setSearch] = useState("");
+  const [signature, setSignature] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleConfirm = () => {
-    console.log("Confirmado!");
     setModalVisible(false);
+    handleConfirmDelete();
   };
 
   const getFilteredData = () => {
@@ -69,6 +70,22 @@ export default function HomeScreen() {
     } else {
       setData([]);
     }
+  };
+
+  const handleConfirmDelete = async () => {
+    setIsLoading(true);
+
+    const response = await service.api.user.deleteSignature({
+      param: { id: signature?.id },
+    });
+
+    if (response?.status == 200) {
+      Alert.alert("Sucesso", "Assinatura eliminada com sucesso!");
+    } else {
+      Alert.alert("Erro", "Falha ao eliminar assinatura, tente mais tarde!");
+    }
+
+    getSignatures();
   };
 
   useFocusEffect(
@@ -199,6 +216,7 @@ export default function HomeScreen() {
                         }}
                         title="Remover"
                         onPress={() => {
+                          setSignature(item);
                           handleDelete();
                         }}
                       />
