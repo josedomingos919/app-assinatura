@@ -1,6 +1,6 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, Image, Platform } from "react-native";
+import { ActivityIndicator, Image } from "react-native";
 import { Button } from "../../components";
 
 import emptyImg from "../../assets/image/empty_img.png";
@@ -11,17 +11,16 @@ import * as ImagePicker from "expo-image-picker";
 import * as S from "./styles";
 
 export default function VerifyScreen() {
+  const params = useLocalSearchParams();
+
   const router = useRouter();
 
   const [imageData, setImageData] = useState(null);
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState({
-    isEqual: true,
-    percentage: 10,
+    isEqual: null,
+    percentage: null,
   });
-
-  console.log(Platform.OS, "------------>   ", imageData?.uri);
 
   const pickImage = async () => {
     // Solicita permissão de acesso à galeria
@@ -51,6 +50,8 @@ export default function VerifyScreen() {
     }
   };
 
+  const handleVerify = async () => {};
+
   return (
     <S.Container>
       <S.Header>
@@ -73,7 +74,13 @@ export default function VerifyScreen() {
       </S.Header>
       <S.ContentContainer>
         <S.ContentContainerWhite>
-          <S.Title>Assinatura Original</S.Title>
+          <S.Title style={{ marginBottom: 0 }}>Assinatura original</S.Title>
+          <S.Title style={{ marginBottom: 0 }}>
+            Nome: <S.TitleBold>{params?.name}</S.TitleBold>
+          </S.Title>
+          <S.Title>
+            BI: <S.TitleBold>{params?.bi}</S.TitleBold>
+          </S.Title>
           <S.UploadButton
             style={{
               marginBottom: 25,
@@ -81,7 +88,7 @@ export default function VerifyScreen() {
             disabled={true}
           >
             <Image
-              source={emptyImg}
+              source={{ uri: `data:image/jpeg;base64,${params?.img}` }}
               style={{
                 width: 80,
                 height: 80,
@@ -129,7 +136,7 @@ export default function VerifyScreen() {
       <S.Footer>
         <Button
           title="Verificar"
-          onPress={() => {}}
+          onPress={() => handleVerify()}
           icon={
             <Image
               resizeMode="contain"

@@ -106,6 +106,12 @@ export const Title = styled.Text`
   color: rgba(0, 0, 0, 0.5);
 `;
 
+export const TitleBold = styled.Text`
+  font-size: 15px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.5);
+`;
+
 export const UploadButton = styled.TouchableOpacity`
   padding: 15px;
   display: flex;

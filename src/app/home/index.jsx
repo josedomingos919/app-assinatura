@@ -184,7 +184,10 @@ export default function HomeScreen() {
                           marginBottom: 10,
                         }}
                         onPress={() => {
-                          router.navigate("/verify");
+                          router.navigate({
+                            pathname: "/verify",
+                            params: item,
+                          });
                         }}
                         icon={
                           <Image
