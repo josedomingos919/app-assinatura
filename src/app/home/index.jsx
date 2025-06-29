@@ -50,8 +50,6 @@ export default function HomeScreen() {
     await service.cache.secureStorage.remove("user");
 
     router.replace("/login");
-
-    console.log("terminou");
   };
 
   const getSignatures = async () => {
@@ -60,8 +58,6 @@ export default function HomeScreen() {
     const response = await service.api.user.getSignature({
       param: { userId: user?.user?.id },
     });
-
-    console.log("Assinaturas..............: ", response, user?.user?.id);
 
     setIsLoading(false);
 
@@ -113,7 +109,7 @@ export default function HomeScreen() {
           <S.HeaderTitle2>Comparador xi53</S.HeaderTitle2>
         </S.HeaderLeft>
         <S.HeaderRight>
-          <S.SettingButton>
+          <S.SettingButton onPress={() => router.navigate("/profile")}>
             <Image
               style={{
                 width: 35,

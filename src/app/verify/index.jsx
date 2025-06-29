@@ -69,8 +69,6 @@ export default function VerifyScreen() {
       },
     });
 
-    console.log("yyyyyyyyyyyyyyyyyyyy   ", response);
-
     if (response?.status == 201) {
       setResult({
         isEqual: response?.data?.same_signature,

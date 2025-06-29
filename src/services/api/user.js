@@ -64,7 +64,25 @@ const compareSignatures = async ({
   }
 };
 
+const update = async ({
+  data: { id = "", name = "", email = "", password = "" },
+}) => {
+  try {
+    const response = await axiosInstance.put("/users/update", {
+      id,
+      name,
+      email,
+      password,
+    });
+
+    return response;
+  } catch (error) {
+    return error?.response;
+  }
+};
+
 export const user = {
+  update,
   getSignature,
   createSignature,
   deleteSignature,

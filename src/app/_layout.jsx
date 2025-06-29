@@ -3,7 +3,7 @@ import { useApp } from "../store/zustend";
 
 export default function Layout() {
   const { user } = useApp();
-  console.log("566666666666    ", user);
+
   if (user?.name) {
     return (
       <Stack
@@ -12,6 +12,7 @@ export default function Layout() {
       >
         <Stack.Screen name="home/index" />
         <Stack.Screen name="create/index" />
+        <Stack.Screen name="profile/index" />
         <Stack.Screen name="verify/index" />
       </Stack>
     );

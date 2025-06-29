@@ -61,7 +61,6 @@ export default function HomeScreen() {
     if (!imageData?.uri) {
       return Alert.alert("Atenção!", "Imagem não pode ser nula!");
     }
-    console.log("666666666666666666666      ", user);
 
     setIsLoading(true);
 
@@ -75,8 +74,6 @@ export default function HomeScreen() {
     });
 
     setIsLoading(false);
-
-    console.log("rest-full-api>>>>>>    ", response);
 
     if (response?.status == 201) {
       Alert.alert("Sucesso!", "Assinatura criada com sucesso!", [

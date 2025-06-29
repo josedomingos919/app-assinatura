@@ -52,13 +52,11 @@ export default function HomeScreen() {
         "Falha ao fazer login, tente novamente mais tarde!"
       );
     }
-
-    console.log("login-in-app>>>>>>    ", response);
   };
 
   const checkSession = async () => {
     const result = await service.cache.secureStorage.get("user");
-    console.log("result     ", result);
+
     if (result?.user?.id) {
       setUser(result);
       router.replace("/home");
