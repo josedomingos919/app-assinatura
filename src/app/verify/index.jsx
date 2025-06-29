@@ -1,8 +1,9 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Alert, Image } from "react-native";
 import { Button } from "../../components";
 import { service } from "../../services";
+import { useApp } from "../../store/zustend";
 
 import emptyImg from "../../assets/image/empty_img.png";
 import img from "../../assets/image/img1.png";
@@ -12,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as S from "./styles";
 
 export default function VerifyScreen() {
-  const params = useLocalSearchParams();
+  const { verifyProps: params } = useApp();
 
   const router = useRouter();
 

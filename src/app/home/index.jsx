@@ -21,7 +21,7 @@ import * as S from "./styles";
 export default function HomeScreen() {
   const router = useRouter();
 
-  const { setUser, user } = useApp();
+  const { setUser, user, setVerifyProps } = useApp();
 
   const [search, setSearch] = useState("");
   const [signature, setSignature] = useState(null);
@@ -182,10 +182,8 @@ export default function HomeScreen() {
                           marginBottom: 10,
                         }}
                         onPress={() => {
-                          router.navigate({
-                            pathname: "/verify",
-                            params: item,
-                          });
+                          setVerifyProps(item);
+                          router.navigate("/verify");
                         }}
                         icon={
                           <Image
