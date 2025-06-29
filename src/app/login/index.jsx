@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, Alert, Image } from "react-native";
+import { ActivityIndicator, Alert, Image, Platform } from "react-native";
 import { Button, TextInput } from "../../components";
 import { service } from "../../services";
 import { useApp } from "../../store/zustend";
@@ -86,7 +86,7 @@ export default function HomeScreen() {
             style={{
               width: 60,
               height: 50,
-              marginTop: -18,
+              marginTop: Platform.OS == "ios" ? 5 : -18,
             }}
             source={img}
             resizeMode="contain"
