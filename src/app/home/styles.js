@@ -107,6 +107,7 @@ export const ListAssings = styled.ScrollView`
 export const ContainerAssing = styled.View`
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   flex-direction: row;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.08);
@@ -136,4 +137,11 @@ export const LabelButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   min-height: 40px;
+`;
+
+export const LoaderContainer = styled.View`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

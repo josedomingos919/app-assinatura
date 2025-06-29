@@ -1,18 +1,13 @@
 import { axiosInstance } from "./adapter/axios";
 
 const getSignature = async ({
-  data = {
-    email: "",
-    password: "",
-  },
   param = {
     userId: "",
   },
 }) => {
   try {
     const response = await axiosInstance.get(
-      `/users/signatures/${param?.userId}`,
-      data
+      `/users/signatures/${param?.userId}`
     );
 
     return response;

@@ -1,12 +1,12 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Image } from "react-native";
+import { useCallback, useState } from "react";
+import { ActivityIndicator, Image } from "react-native";
 import { Button, ConfirmationModal, TextInput } from "../../components";
 import { service } from "../../services";
 import { useApp } from "../../store/zustend";
 import { compararStringsLimpa } from "./util";
 
-import img4 from "../../assets/image/assinatura.jpeg";
 import verifyImg from "../../assets/image/comparar.png";
 import removeImg from "../../assets/image/remover.png";
 import settingImg from "../../assets/image/setting.png";
@@ -23,26 +23,10 @@ export default function HomeScreen() {
 
   const { setUser, user } = useApp();
 
-  console.log("yyyyyyyyyyyyyyyy      ", user);
-
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([
-    {
-      bi: "938399LA83939",
-      name: "Antonio Miguel",
-      signature: "ksjdkskjdkksjd",
-    },
-    {
-      bi: "938399LA83d939",
-      name: "Antonio Hunday",
-      signature: "ksjdkskjdkksjd",
-    },
-    {
-      bi: "938399LA83939",
-      name: "Antonio Tucson",
-      signature: "ksjdkskjdkksjd",
-    },
-  ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleConfirm = () => {
@@ -68,6 +52,30 @@ export default function HomeScreen() {
 
     console.log("terminou");
   };
+
+  const getSignatures = async () => {
+    setIsLoading(true);
+
+    const response = await service.api.user.getSignature({
+      param: { userId: user?.user?.id },
+    });
+
+    console.log("Assinaturas..............: ", response, user?.user?.id);
+
+    setIsLoading(false);
+
+    if (response?.status == 200) {
+      setData(response?.data);
+    } else {
+      setData([]);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getSignatures();
+    }, [])
+  );
 
   return (
     <S.Container>
@@ -121,7 +129,11 @@ export default function HomeScreen() {
             placeholder="Buscar assinatura"
             placeholderTextColor="#acacac"
           />
-          {getFilteredData()?.length > 0 ? (
+          {isLoading ? (
+            <S.LoaderContainer>
+              <ActivityIndicator color="#fec130" size="large" />
+            </S.LoaderContainer>
+          ) : getFilteredData()?.length > 0 ? (
             <S.ListAssings
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
@@ -133,11 +145,10 @@ export default function HomeScreen() {
                   <S.ContainerAssing key={"te" + index}>
                     <Image
                       resizeMode="contain"
-                      source={img4}
+                      source={{ uri: `data:image/jpeg;base64,${item?.img}` }}
                       style={{
-                        width: 100,
+                        flex: 1,
                         height: 100,
-                        marginLeft: -10,
                         borderTopRightRadius: 10,
                         borderBottomRightRadius: 10,
                         backgroundColor: "transparent",
