@@ -30,7 +30,7 @@ const createSignature = async ({
   },
 }) => {
   try {
-    const response = await axiosInstance.get("/users/signatures", data);
+    const response = await axiosInstance.post("/users/signatures", data);
 
     return response;
   } catch (error) {

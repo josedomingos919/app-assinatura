@@ -1,7 +1,9 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image } from "react-native";
+import { Alert, Image } from "react-native";
 import { Button, TextInput } from "../../components";
+import { service } from "../../services";
+import { useApp } from "../../store/zustend";
 
 import emptyImg from "../../assets/image/empty_img.png";
 import img from "../../assets/image/img1.png";
@@ -13,8 +15,11 @@ import * as S from "./styles";
 export default function HomeScreen() {
   const router = useRouter();
 
-  const [data, setData] = useState([]);
+  const [bi, setBi] = useState("");
+  const [name, setName] = useState("");
   const [imageData, setImageData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { setUser, user } = useApp();
 
   const pickImage = async () => {
     // Solicita permissão de acesso à galeria
@@ -44,6 +49,47 @@ export default function HomeScreen() {
     }
   };
 
+  const handleAdd = async () => {
+    if (name?.length < 5) {
+      return Alert.alert("Atenção!", "O nome precisa ter mais de 4 letras!");
+    }
+
+    if (bi?.length < 14) {
+      return Alert.alert("Atenção!", "O BI precisa ter mais de 14 letras!");
+    }
+
+    if (!imageData?.uri) {
+      return Alert.alert("Atenção!", "Imagem não pode ser nula!");
+    }
+    console.log("666666666666666666666      ", user);
+
+    setIsLoading(true);
+
+    const response = await service.api.user.createSignature({
+      data: {
+        bi,
+        name,
+        userId: user?.user?.id,
+        img: imageData?.base64,
+      },
+    });
+
+    setIsLoading(false);
+
+    console.log("rest-full-api>>>>>>    ", response);
+
+    if (response?.status == 201) {
+      Alert.alert("Sucesso!", "Assinatura criada com sucesso!", [
+        {
+          text: "Sim",
+          onPress: () => router.back(),
+        },
+      ]);
+    } else {
+      Alert.alert("Erro!", "Tente novamente mais tarde!");
+    }
+  };
+
   return (
     <S.Container>
       <S.Header>
@@ -67,12 +113,16 @@ export default function HomeScreen() {
       <S.ContentContainer>
         <S.ContentContainerWhite>
           <TextInput
+            value={name}
+            onChangeText={setName}
             marginBottom={20}
             title="Nome do Assinante"
             placeholder="ex.: Renato Manuel"
             placeholderTextColor="#acacac"
           />
           <TextInput
+            value={bi}
+            onChangeText={setBi}
             marginBottom={20}
             title="Nº BI"
             placeholder="ex.: 007914682LA043"
@@ -97,7 +147,11 @@ export default function HomeScreen() {
       </S.ContentContainer>
       <S.Footer>
         <Button
+          disabled={isLoading}
           title="Adicionar"
+          onPress={() => {
+            handleAdd();
+          }}
           icon={
             <Image
               resizeMode="contain"

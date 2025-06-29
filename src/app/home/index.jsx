@@ -22,6 +22,9 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const { setUser, user } = useApp();
+
+  console.log("yyyyyyyyyyyyyyyy      ", user);
+
   const [search, setSearch] = useState("");
   const [data, setData] = useState([
     {

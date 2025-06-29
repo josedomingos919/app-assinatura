@@ -59,8 +59,8 @@ export default function HomeScreen() {
   const checkSession = async () => {
     const result = await service.cache.secureStorage.get("user");
     console.log("result     ", result);
-    if (result) {
-      setUser(result?.name);
+    if (result?.user?.id) {
+      setUser(result);
       router.replace("/home");
     } else {
       setCheckData(true);
