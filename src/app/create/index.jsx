@@ -82,6 +82,11 @@ export default function HomeScreen() {
           onPress: () => router.back(),
         },
       ]);
+    } else if (response?.data?.error?.meta?.target?.includes("bi")) {
+      Alert.alert(
+        "Atenção!",
+        "Assinante já existe, o campo BI está duplicado!"
+      );
     } else {
       Alert.alert("Erro!", "Tente novamente mais tarde!");
     }
@@ -128,6 +133,7 @@ export default function HomeScreen() {
           <S.Title>Foto da Assinatura</S.Title>
           <S.UploadButton onPress={() => pickImage()}>
             <Image
+              resizeMode="contain"
               source={imageData?.uri ? { uri: imageData?.uri } : emptyImg}
               style={{
                 width: 80,
