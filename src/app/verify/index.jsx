@@ -1,7 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, Image } from "react-native";
+import { ActivityIndicator, Alert, Image } from "react-native";
 import { Button } from "../../components";
+import { service } from "../../services";
 
 import emptyImg from "../../assets/image/empty_img.png";
 import img from "../../assets/image/img1.png";
@@ -50,7 +51,40 @@ export default function VerifyScreen() {
     }
   };
 
-  const handleVerify = async () => {};
+  const handleVerify = async () => {
+    if (!params?.img) {
+      return Alert.alert("Atenção", "Não passou a imagem original!");
+    }
+
+    if (!imageData?.base64) {
+      return Alert.alert("Atenção", "Não passou a imagem para comparar!");
+    }
+
+    setIsLoading(true);
+
+    const response = await service.api.user.compareSignatures({
+      data: {
+        img1Base64: params?.img,
+        img2Base64: imageData?.base64,
+      },
+    });
+
+    console.log("yyyyyyyyyyyyyyyyyyyy   ", response);
+
+    if (response?.status == 201) {
+      setResult({
+        isEqual: response?.data?.same_signature,
+        percentage: Number(response?.data?.similarity).toFixed(2) * 100,
+      });
+    } else {
+      setResult({
+        isEqual: null,
+        percentage: null,
+      });
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <S.Container>
@@ -125,7 +159,7 @@ export default function VerifyScreen() {
                     isEqual={result?.isEqual}
                     style={{ fontSize: 15 }}
                   >
-                    Aproximação 90%
+                    Aproximação {result?.percentage}%
                   </S.TextSucess>
                 </>
               )}
@@ -135,6 +169,7 @@ export default function VerifyScreen() {
       </S.ContentContainer>
       <S.Footer>
         <Button
+          disabled={isLoading}
           title="Verificar"
           onPress={() => handleVerify()}
           icon={

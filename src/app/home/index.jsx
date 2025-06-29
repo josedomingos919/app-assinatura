@@ -160,23 +160,25 @@ export default function HomeScreen() {
 
                 return (
                   <S.ContainerAssing key={"te" + index}>
-                    <Image
-                      resizeMode="contain"
-                      source={{ uri: `data:image/jpeg;base64,${item?.img}` }}
-                      style={{
-                        flex: 1,
-                        height: 100,
-                        borderTopRightRadius: 10,
-                        borderBottomRightRadius: 10,
-                        backgroundColor: "transparent",
-                      }}
-                    />
+                    <S.ImageContainer>
+                      <Image
+                        resizeMode="contain"
+                        source={{ uri: `data:image/jpeg;base64,${item?.img}` }}
+                        style={{
+                          flex: 1,
+                          height: 100,
+                          borderTopRightRadius: 10,
+                          borderBottomRightRadius: 10,
+                          backgroundColor: "transparent",
+                        }}
+                      />
+                    </S.ImageContainer>
                     <S.InfoList>
                       <S.LabelName style={{ marginBottom: 0 }}>
                         {item?.name}
                       </S.LabelName>
                       <S.LabelName style={{ fontWeight: "bold" }}>
-                        {item?.bi}
+                        BI: {item?.bi}
                       </S.LabelName>
                       <Button
                         title="Verificar"

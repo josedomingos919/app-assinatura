@@ -107,7 +107,6 @@ export const ListAssings = styled.ScrollView`
 export const ContainerAssing = styled.View`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   flex-direction: row;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.08);
@@ -118,7 +117,12 @@ export const ContainerAssing = styled.View`
 
 export const InfoList = styled.View`
   padding-left: 15px;
+  width: 100%;
   flex: 1;
+`;
+
+export const ImageContainer = styled.View`
+  width: 30%;
 `;
 
 export const LabelName = styled.Text`
