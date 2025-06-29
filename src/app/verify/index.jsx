@@ -70,6 +70,7 @@ export default function VerifyScreen() {
     });
 
     if (response?.status == 201) {
+      console.log("response?.data   ", response?.data);
       setResult({
         isEqual: response?.data?.same_signature,
         percentage: Number(response?.data?.similarity).toFixed(2) * 100,
@@ -125,6 +126,7 @@ export default function VerifyScreen() {
                 width: 80,
                 height: 80,
               }}
+              resizeMode="contain"
             />
           </S.UploadButton>
           <S.Title>Carregar Assinatura</S.Title>
@@ -135,6 +137,7 @@ export default function VerifyScreen() {
                 width: 80,
                 height: 80,
               }}
+              resizeMode="contain"
             />
             {!imageData?.uri ? (
               <S.TitleUploadButton>Carregar Imagem</S.TitleUploadButton>
